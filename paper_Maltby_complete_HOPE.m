@@ -14,10 +14,16 @@ width =0.225; %Only oven length is considered, such that WIDTH = 0.45/2 = 0.225
 nseg = 21; 
 dx = width/nseg; %0.010714286 
 delt = 600;       %GOOD solution
-         t=13.8333*3600;        %total time
+t=13.8333*3600;        %total time
 nt = t/delt;      %number of timesteps
 doo= dx*dx/delt;
 v0 = dx/delt;
+
+%%%% Arrays for surface plot
+T_surf = zeros(nseg, nt);
+t_surf = zeros(nseg, nt);
+x_surf = zeros(nseg, nt);
+%%%%%%%%%%%%%%%
 
 wall = 0.05; %0.1
 M = 1.5+wall/dx;  M=fix(M);
@@ -381,6 +387,11 @@ for z=1:nt
             end
         end
     end
+    
+    %%% placeholder
+    % T_surf(i, z) = ...
+    % t_surf(i, z) = ...
+    % x_surf(i, z) = ...
 
 %plot(T)
       
