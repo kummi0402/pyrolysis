@@ -2,7 +2,7 @@ clear all;
 diary paper_CWM_Temp
 
 % INITIAL CONDITIONS
-moisto = 0.0; %moisture content
+moisto = 0.1; %moisture content
 ash=5*(1-moisto)/100;	%0.05;
 dafo=1-moisto-ash;  %0.855;	%0.95;
 rhodry = 750;
@@ -414,14 +414,16 @@ for z=1:nt
 %desired_locations = 0:(0.275/(N-1)):0.275;    %N = 26
 
     %% Temperature calculated for distance and time
-    for i = 1 : N
+    for i = 1 : N % N = 26
         %x_this = (i - M) * dx + 0.05;
-        x_this = (i) * dx;
-        x_next = x_this + dx;
+        dxx = 0.275 / (N-1);
+        x_this = (i-1) * dxx;
+        %x_next = x_this + dxx;
 
         % x_M --- x_M+1 --(p1)-- x_M+2 --- x_M+3 --(p2)-- x_M+4 ...
         for j = 1 : length(desired_locations)
-            if x_this <= desired_locations(j) && x_next >= desired_locations(j)    %if x_this <= probe_locations(j) && x_next >= probe_locations(j)
+            %if x_this <= desired_locations(j) && x_next > desired_locations(j)    %if x_this <= probe_locations(j) && x_next >= probe_locations(j)
+            if x_this == desired_locations(j)
                 for k = 1 : length(desired_times)
                     if (recorded_temperature(j, k) == 0)
                       % constant interpolation
@@ -442,5 +444,7 @@ surf (desired_times, desired_locations, recorded_temperature)
 set(gca, 'YDir','reverse')
 xlabel ("Time (s)");
 ylabel ("Distance(m)");
+ylim ([0 0.275]);
 zlabel ("Temperature (deg)");
+colorbar
 diary off
